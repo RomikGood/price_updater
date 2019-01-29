@@ -1,5 +1,4 @@
 from amazon_bot import AmazonBot
-
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
@@ -18,13 +17,13 @@ class PriceUpdater(object):
         creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json',
                                                                  scope)
         client = gspread.authorize(creds)
-
         self.sheet = client.open(spreadsheet_name).sheet1
 
 
     def process_item_list(self):
         # Skip over the column heading in the spreadsheet.
         items = self.sheet.col_values(self.item_col)[1:]
+        print(items)
 
         amazon_bot = AmazonBot(items)
         prices, urls, names = amazon_bot.search_items()
